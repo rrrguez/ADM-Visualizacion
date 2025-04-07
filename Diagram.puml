@@ -1,0 +1,87 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class app.Main {
++ main()
+}
+
+abstract class app.strategy.chart.Chart
+class app.strategy.chart.BarChart
+class app.strategy.chart.LineChart
+class app.strategy.chart.ScatterChart
+
+app.strategy.chart.Chart <|-- app.strategy.chart.BarChart
+app.strategy.chart.Chart <|-- app.strategy.chart.LineChart
+app.strategy.chart.Chart <|-- app.strategy.chart.ScatterChart
+
+abstract class app.strategy.chart.Chart {
++ Chart()
++ {abstract} createAndDisplayChart()
+# createDataset()
+}
+
+class app.strategy.chart.BarChart {
++ BarChart()
++ createAndDisplayChart()
+}
+
+class app.strategy.chart.LineChart {
++ LineChart()
++ createAndDisplayChart()
+}
+
+class app.strategy.chart.ScatterChart {
++ ScatterChart()
++ createAndDisplayChart()
+}
+
+class ApplicationFrame
+
+ApplicationFrame <|-- app.strategy.chart.Chart
+
+class app.gui.ChartGUI
+
+JFrame <|-- app.gui.ChartGUI
+JFrame <|-- ApplicationFrame
+
+class app.gui.ChartGUI {
++ ChartGUI()
+- generateChart()
+}
+
+class app.FileProcessor
+
+class app.FileProcessor {
+# url
+# type
++ FileProcessor()
++ ProcessFile()
+- ProcessURLFile()
+- ProcessLocalFile()
+}
+
+abstract class app.strategy.parser.FileParser
+class app.strategy.parser.CSVFileParser
+class app.strategy.parser.XLSXFileParser
+
+app.strategy.parser.FileParser <|-- app.strategy.parser.CSVFileParser
+app.strategy.parser.FileParser <|-- app.strategy.parser.XLSXFileParser
+
+abstract class app.strategy.parser.FileParser {
+# columnNames
+# data
++ FileParser()
++ {abstract} Parse()
+}
+
+class app.strategy.parser.CSVFileParser {
++ CSVFileParser()
++ Parse()
+}
+
+class app.strategy.parser.XLSXFileParser {
++ HTMLFileParser()
++ Parse()
+}
+
+@enduml
