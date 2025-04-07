@@ -40,6 +40,8 @@ public class ChartGUI extends JFrame {
     private JComboBox<String> chartTypeComboBox;
     private JComboBox<String> xAxisField;
     private JComboBox<String> yAxisField;
+    private JComboBox<String> groupByAxisComboBox;
+
     private JButton processFileButton;
     private JButton generateChartButton;
     private FileParser data = null;
@@ -67,6 +69,9 @@ public class ChartGUI extends JFrame {
         xAxisField = new JComboBox<>();
         JLabel yAxisLabel = new JLabel("Eje Y");
         yAxisField = new JComboBox<>();
+        JLabel groupAxisLabel = new JLabel("Agrupar por...");
+        groupByAxisComboBox = new JComboBox<>();
+
         processFileButton = new JButton("Procesar fichero de datos");
         generateChartButton = new JButton("Generar gráfico");
 
@@ -82,7 +87,7 @@ public class ChartGUI extends JFrame {
         fileSourcePanel.add(url);
 
         JPanel chartPanel = new JPanel();
-        chartPanel.setLayout(new GridLayout(3, 2));
+        chartPanel.setLayout(new GridLayout(4, 2));
 
         JPanel filePanel = new JPanel();
         filePanel.setLayout(new GridLayout(2, 2));
@@ -140,6 +145,8 @@ public class ChartGUI extends JFrame {
                         chartPanel.add(xAxisField);
                         chartPanel.add(yAxisLabel);
                         chartPanel.add(yAxisField);
+                        chartPanel.add(groupAxisLabel);
+                        chartPanel.add(groupByAxisComboBox);
 
                         add(chartPanel);
 
@@ -177,6 +184,8 @@ public class ChartGUI extends JFrame {
                         chartPanel.add(xAxisField);
                         chartPanel.add(yAxisLabel);
                         chartPanel.add(yAxisField);
+                        chartPanel.add(groupAxisLabel);
+                        chartPanel.add(groupByAxisComboBox);
 
                         add(chartPanel);
 
@@ -204,9 +213,13 @@ public class ChartGUI extends JFrame {
                 int xAxis = xAxisField.getSelectedIndex();
                 int yAxis = yAxisField.getSelectedIndex();
 
-                // Crear el gráfico con los datos del archivo local
                 assert chartType != null;
-                createChart(data, fileName, chartType, xAxis, yAxis);
+
+                if(groupByAxisComboBox.getSelectedItem().equals("None")) {
+                    createChart(data, fileName, chartType, xAxis, yAxis);
+                } else {
+                    createChart(data, fileName, chartType, xAxis, yAxis, groupByAxisComboBox.getSelectedIndex() -1);
+                }
             }
         });
     }
@@ -215,11 +228,14 @@ public class ChartGUI extends JFrame {
         // Limpiar los ComboBox antes de añadir nuevos elementos
         xAxisField.removeAllItems();
         yAxisField.removeAllItems();
+        groupByAxisComboBox.removeAllItems();
+        groupByAxisComboBox.addItem("None");
 
         // Añadir los nombres de las columnas a los ComboBox
         for (String columnName : columnNames) {
             xAxisField.addItem(columnName);
             yAxisField.addItem(columnName);
+            groupByAxisComboBox.addItem(columnName);
         }
     }
 
@@ -231,6 +247,20 @@ public class ChartGUI extends JFrame {
 
         } else if (chartType.equals("Gráfico de líneas")) {
             chart = new LineChart(fileName, data.getColumnNames(), data.getData(), xAxis, yAxis);
+        }
+        assert chart != null;
+        chart.pack();
+        RefineryUtilities.centerFrameOnScreen(chart);
+        chart.setVisible(true);
+    }
+
+    private void createChart(FileParser data, String fileName, String chartType, int xAxis, int yAxis, int groupByAxis) {
+        Chart chart = null;
+        if (chartType.equals("Gráfico de barras")) {
+            chart = new BarChart(fileName, data.getColumnNames(), data.getData(), xAxis, yAxis, groupByAxis);
+
+        } else if (chartType.equals("Gráfico de líneas")) {
+            chart = new LineChart(fileName, data.getColumnNames(), data.getData(), xAxis, yAxis, groupByAxis);
         }
         assert chart != null;
         chart.pack();

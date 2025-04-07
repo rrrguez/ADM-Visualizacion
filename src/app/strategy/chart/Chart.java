@@ -64,5 +64,51 @@ public abstract class Chart extends ApplicationFrame {
 
         return dataset;
     }
+
+    protected DefaultCategoryDataset createDataset(List<String> headers, List<List<String>> data, int xAxis, int yAxis, int groupByAxis) {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+
+        // Mapa: grupo -> (categoría -> valor)
+        Map<String, Map<String, Double>> groupedData = new TreeMap<>();
+
+        for (List<String> rowData : data) {
+            if (rowData.size() > Math.max(xAxis, Math.max(yAxis, groupByAxis))) {
+                String category = rowData.get(xAxis).trim();
+                String group = rowData.get(groupByAxis).trim();
+                String yValueStr = rowData.get(yAxis).trim();
+
+                if (!category.isEmpty() && !yValueStr.isEmpty() && !group.isEmpty()) {
+                    try {
+                        double value = Double.parseDouble(yValueStr);
+
+                        // Obtener mapa interno del grupo, o crearlo si no existe
+                        Map<String, Double> groupMap = groupedData.computeIfAbsent(group, k -> new TreeMap<>((a, b) -> {
+                            try {
+                                return Integer.compare(Integer.parseInt(a), Integer.parseInt(b));
+                            } catch (NumberFormatException e) {
+                                return a.compareTo(b);
+                            }
+                        }));
+
+                        // Acumular valor en la categoría correspondiente
+                        groupMap.put(category, groupMap.getOrDefault(category, 0.0) + value);
+
+                    } catch (NumberFormatException e) {
+                        System.out.println("Valor Y no numérico: " + yValueStr);
+                    }
+                }
+            }
+        }
+
+        // Añadir los valores al dataset
+        for (Map.Entry<String, Map<String, Double>> groupEntry : groupedData.entrySet()) {
+            String groupName = groupEntry.getKey();
+            for (Map.Entry<String, Double> categoryEntry : groupEntry.getValue().entrySet()) {
+                dataset.addValue(categoryEntry.getValue(), groupName, categoryEntry.getKey());
+            }
+        }
+
+        return dataset;
+    }
 }
 
