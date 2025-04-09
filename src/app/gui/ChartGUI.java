@@ -17,6 +17,7 @@ import app.strategy.parser.FileParser;
 import app.strategy.parser.XLSXFileParser;
 
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -46,12 +47,13 @@ public class ChartGUI extends JFrame {
     private String fileName;
 
     // Constructor
-    public ChartGUI() {
+    public ChartGUI() throws IOException {
         // Ventanita principal
         setTitle("ADM - Práctica Visualización de Datos I");
         setSize(400, 350);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new GridLayout(6, 2));
+        setIconImage(ImageIO.read(new File("images/icon.png")));
 
         // Se crean los componentes declarados previamente
         url = new JRadioButton("URL");
@@ -246,6 +248,8 @@ public class ChartGUI extends JFrame {
         } else if (chartType.equals("Gráfico de líneas")) {
             chart = new LineChart(fileName, data.getColumnNames(), data.getData(), xAxis, yAxis);
         } else if (chartType.equals("Histograma")) {
+            chart = new HistogramChart(fileName, data.getColumnNames(), data.getData(), xAxis, yAxis);
+        } else if (chartType.equals("Nube de puntos")) {
             chart = new HistogramChart(fileName, data.getColumnNames(), data.getData(), xAxis, yAxis);
         }
         assert chart != null;

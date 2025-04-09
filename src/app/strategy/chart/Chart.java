@@ -137,6 +137,21 @@ public abstract class Chart extends ApplicationFrame {
 
     protected XYDataset createXYDataset(List<String> headers, List<List<String>> data, int xAxis, int yAxis) {
         XYSeriesCollection dataset = new XYSeriesCollection();
+        XYSeries series = new XYSeries(headers.get(yAxis)); // puedes nombrarlo como quieras
+
+        for (List<String> row : data) {
+            if (row.size() > Math.max(xAxis, yAxis)) {
+                try {
+                    double x = Double.parseDouble(row.get(xAxis).trim());
+                    double y = Double.parseDouble(row.get(yAxis).trim());
+                    series.add(x, y);
+                } catch (NumberFormatException ignored) {
+                    // Puedes registrar si quieres saber qué valores fallan
+                }
+            }
+        }
+
+        dataset.addSeries(series);
         return dataset;
     }
 

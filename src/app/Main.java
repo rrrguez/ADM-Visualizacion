@@ -11,8 +11,10 @@ package app;
 
 import app.gui.ChartGUI;
 
+import java.io.IOException;
+
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         // Se crea la ventana interactiva
         ChartGUI gui = new ChartGUI();
         gui.setVisible(true);
