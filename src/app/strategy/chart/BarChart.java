@@ -17,6 +17,8 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.StandardBarPainter;
+import org.jfree.chart.plot.DefaultDrawingSupplier;
+
 
 import java.awt.Color;
 
@@ -73,18 +75,37 @@ public class BarChart extends Chart {
         );
 
         CategoryPlot plot = (CategoryPlot) barChart.getPlot();
+        plot.setBackgroundPaint(Color.WHITE);
+        plot.setDomainGridlinePaint(Color.LIGHT_GRAY);
+        plot.setRangeGridlinePaint(Color.LIGHT_GRAY);
+        plot.setDrawingSupplier(getDefaultDrawingSupplier());
+
         BarRenderer renderer = (BarRenderer) plot.getRenderer();
-
-        Color[] colors = {new Color(70, 130, 180), new Color(100, 149, 237), new Color(135, 206, 235)};
-        for (int i = 0; i < dataset.getRowCount(); i++) {
-            renderer.setSeriesPaint(i, colors[i % colors.length]);
-        }
-
         renderer.setBarPainter(new StandardBarPainter());
         renderer.setShadowVisible(false);
 
         ChartPanel chartPanel = new ChartPanel(barChart);
         chartPanel.setPreferredSize(new Dimension(800, 600));
         setContentPane(chartPanel);
+    }
+
+    private static DefaultDrawingSupplier getDefaultDrawingSupplier() {
+        Paint[] customPaints = new Paint[] {
+                new Color(70, 130, 180),
+                new Color(100, 149, 237),
+                new Color(135, 206, 235),
+                new Color(176, 196, 222),
+                new Color(30, 144, 255)
+        };
+
+        DefaultDrawingSupplier drawingSupplier = new DefaultDrawingSupplier(
+                customPaints,
+                DefaultDrawingSupplier.DEFAULT_FILL_PAINT_SEQUENCE,
+                DefaultDrawingSupplier.DEFAULT_OUTLINE_PAINT_SEQUENCE,
+                DefaultDrawingSupplier.DEFAULT_STROKE_SEQUENCE,
+                DefaultDrawingSupplier.DEFAULT_OUTLINE_STROKE_SEQUENCE,
+                DefaultDrawingSupplier.DEFAULT_SHAPE_SEQUENCE
+        );
+        return drawingSupplier;
     }
 }

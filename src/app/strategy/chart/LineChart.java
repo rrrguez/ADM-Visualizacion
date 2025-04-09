@@ -73,13 +73,18 @@ public class LineChart extends Chart {
         );
 
         CategoryPlot plot = lineChart.getCategoryPlot();
+        plot.setBackgroundPaint(Color.WHITE);
+        plot.setDomainGridlinePaint(Color.LIGHT_GRAY);
+        plot.setRangeGridlinePaint(Color.LIGHT_GRAY);
+
         LineAndShapeRenderer renderer = new LineAndShapeRenderer();
 
         Color[] colors = {
                 new Color(70, 130, 180),
                 new Color(100, 149, 237),
                 new Color(135, 206, 235),
-                new Color(176, 196, 222)
+                new Color(176, 196, 222),
+                new Color(30, 144, 255)
         };
 
         for (int i = 0; i < dataset.getRowCount(); i++) {

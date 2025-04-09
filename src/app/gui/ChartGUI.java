@@ -10,9 +10,7 @@
 package app.gui;
 
 import app.FileProcessor;
-import app.strategy.chart.BarChart;
-import app.strategy.chart.Chart;
-import app.strategy.chart.LineChart;
+import app.strategy.chart.*;
 import org.jfree.ui.RefineryUtilities;
 import app.strategy.parser.CSVFileParser;
 import app.strategy.parser.FileParser;
@@ -63,7 +61,7 @@ public class ChartGUI extends JFrame {
         String[] fileTypeOptions = {"CSV", "XLSX"};
         fileTypeComboBox = new JComboBox<>(fileTypeOptions);
         JLabel chartTypeLabel = new JLabel("Tipo de gráfico");
-        String[] chartTypeOptions = {"Gráfico de barras", "Gráfico de líneas", "Nube de puntos"};
+        String[] chartTypeOptions = {"Gráfico de barras", "Gráfico de líneas", "Histograma", "Nube de puntos"};
         chartTypeComboBox = new JComboBox<>(chartTypeOptions);
         JLabel xAxisLabel = new JLabel("Eje X");
         xAxisField = new JComboBox<>();
@@ -247,6 +245,8 @@ public class ChartGUI extends JFrame {
 
         } else if (chartType.equals("Gráfico de líneas")) {
             chart = new LineChart(fileName, data.getColumnNames(), data.getData(), xAxis, yAxis);
+        } else if (chartType.equals("Histograma")) {
+            chart = new HistogramChart(fileName, data.getColumnNames(), data.getData(), xAxis, yAxis);
         }
         assert chart != null;
         chart.pack();
@@ -258,9 +258,12 @@ public class ChartGUI extends JFrame {
         Chart chart = null;
         if (chartType.equals("Gráfico de barras")) {
             chart = new BarChart(fileName, data.getColumnNames(), data.getData(), xAxis, yAxis, groupByAxis);
-
         } else if (chartType.equals("Gráfico de líneas")) {
             chart = new LineChart(fileName, data.getColumnNames(), data.getData(), xAxis, yAxis, groupByAxis);
+        } else if (chartType.equals("Nube de puntos")) {
+            chart = new ScatterChart(fileName, data.getColumnNames(), data.getData(), xAxis, yAxis, groupByAxis);
+        } else if (chartType.equals("Histograma")) {
+            chart = new HistogramChart(fileName, data.getColumnNames(), data.getData(), xAxis, yAxis);
         }
         assert chart != null;
         chart.pack();
@@ -268,4 +271,3 @@ public class ChartGUI extends JFrame {
         chart.setVisible(true);
     }
 }
-
