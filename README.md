@@ -1,6 +1,6 @@
 # Visualización de Datos (I)
 
-Esta aplicación Java utiliza las librerías Swing y JFreeChart para la generación de gráficos a partir de un archivo de datos de entrada mediante una interfaz intuitiva.
+Esta aplicación Java se ha desarrollado para la asignatura Análisis de Datos Masivos. Utiliza las librerías Swing y JFreeChart para la generación de gráficos a partir de un archivo de datos de entrada mediante una interfaz intuitiva.
 
 Se admiten dos formatos de archivo: CSV y Excel. El programa cuenta con dos *parsers*, uno para cada formato, y el patrón *Strategy* permite cambiar de un *parser* a otro fácilmente.
 
