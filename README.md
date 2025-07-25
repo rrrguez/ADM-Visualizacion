@@ -12,3 +12,5 @@ En esta iteración, se pueden generar los siguientes tipos de gráficos (para lo
 * Nube de puntos.
 
 Se proporciona un archivo `traffic_accidents.csv` de muestra, disponible abiertamente en Kaggle ([fuente](https://www.kaggle.com/datasets/oktayrdeki/traffic-accidents)).
+
+Se ha utilizado el *plugin* PlantUML para la generación del Diagrama de Clases del programa.
