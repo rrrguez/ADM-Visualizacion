@@ -1,4 +1,4 @@
-# Visualización de Datos
+# Visualización de Datos (I)
 
 Esta aplicación Java utiliza las librerías Swing y JFreeChart para la generación de gráficos a partir de un archivo de datos de entrada mediante una interfaz intuitiva.
 
