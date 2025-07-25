@@ -10,3 +10,5 @@ En esta iteración, se pueden generar los siguientes tipos de gráficos (para lo
 * Gráfico de barras.
 * Graáfico de líneas.
 * Nube de puntos.
+
+Se proporciona un archivo `traffic_accidents.csv` de muestra, obtenido en Kaggle ([fuente](https://www.kaggle.com/datasets/oktayrdeki/traffic-accidents).
